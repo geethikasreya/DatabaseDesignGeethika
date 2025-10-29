@@ -12,11 +12,11 @@
 
 ## 3 ER Diagram
 
-![alt text](<.png>)
+![alt text](<ERDiagram.png>)
 
 ## 4 Five SQL Queries
-![alt text](<QueryScreenshot.png>) 
-![alt text](<QueryScreenshot.png>)
+![alt text](<QueryScreenshot1.png>) 
+![alt text](<QueryScreenshot2.png>)
 
 -- Query 1
 SELECT s.full_name, s.position, d.dept_name, s.hire_date
