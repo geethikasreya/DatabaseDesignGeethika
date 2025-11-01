@@ -15,7 +15,7 @@ This folder contains the complete SQL script (`movie_rental.sql`) and the requir
 ### 2. Three-Table JOIN Query (Core Requirement)
 
 **Requirement:** Show the complete SQL query and results in one image, linking Members, Movies, and Rentals.
-![alt text](Join_query.png)
+![alt text](join.png)
 
 
 ---
