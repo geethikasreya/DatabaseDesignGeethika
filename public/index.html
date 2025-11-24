@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Database Frontend</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .section { margin-bottom: 40px; }
+        .item { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>My Database Items</h1>
+
+    <!-- Guests Section -->
+    <div class="section">
+        <h2>Guests</h2>
+        <div id="guests">Loading guests...</div>
+    </div>
+
+    <!-- Rooms Section -->
+    <div class="section">
+        <h2>Rooms</h2>
+        <div id="rooms">Loading rooms...</div>
+    </div>
+
+    <!-- Bookings Section -->
+    <div class="section">
+        <h2>Bookings</h2>
+        <div id="bookings">Loading bookings...</div>
+    </div>
+
+    <script>
+        // Fetch Guests
+        fetch('/.netlify/functions/get-guests')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('guests').innerHTML =
+                    data.map(item => `<div class="item">${JSON.stringify(item)}</div>`).join('');
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.getElementById('guests').innerHTML = 'Error loading guests';
+            });
+
+        // Fetch Rooms
+        fetch('/.netlify/functions/get-rooms')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('rooms').innerHTML =
+                    data.map(item => `<div class="item">${JSON.stringify(item)}</div>`).join('');
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.getElementById('rooms').innerHTML = 'Error loading rooms';
+            });
+
+        // Fetch Bookings
+        fetch('/.netlify/functions/get-bookings')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('bookings').innerHTML =
+                    data.map(item => `<div class="item">${JSON.stringify(item)}</div>`).join('');
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                document.getElementById('bookings').innerHTML = 'Error loading bookings';
+            });
+    </script>
+
+</body>
+</html>
