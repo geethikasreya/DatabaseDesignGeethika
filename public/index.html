@@ -65,8 +65,52 @@
 
         <div id="bookings">Loading bookings...</div>
     </div>
+     <div class="section">
+        <h2>Booking Details (Joined View)</h2>
+        <button onclick="loadJoinedBookings()">Load Booking Details</button>
+        <div id="joinedBookings">Click "Load Booking Details" to view joined data…</div>
+    </div>
 
     <script>
+
+    
+
+        async function loadJoinedBookings() {
+            const container = document.getElementById('joinedBookings');
+            container.innerHTML = 'Loading joined booking details...';
+
+            try {
+                const res = await fetch('/.netlify/functions/join-bookings');
+                if (!res.ok) {
+                    throw new Error('Failed to fetch joined bookings');
+                }
+
+                const data = await res.json();
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = '<p>No booking details found.</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map(b => `
+                    <div class="item">
+                        <strong>Guest:</strong> ${b.guest_name} (${b.guest_email})<br>
+                        <strong>Room:</strong> ${b.roomtype} (ID: ${b.roomid})<br>
+                        <strong>Check-in:</strong> ${new Date(b.checkindate).toLocaleDateString()}<br>
+                        <strong>Check-out:</strong> ${new Date(b.checkoutdate).toLocaleDateString()}<br>
+                        <strong>Total Cost:</strong> $${b.totalcost}
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading joined bookings:', err);
+                container.innerHTML = 'Error loading joined booking details.';
+            }
+        }
+
+        // existing initial load call
+        loadAllTables();
+    
+
 
         // ---------- REUSABLE DISPLAY FUNCTION ----------
 
