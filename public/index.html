@@ -67,6 +67,21 @@
     </div>
 
     <script>
+
+        // ---------- REUSABLE DISPLAY FUNCTION ----------
+
+        function displayTable(containerId, data, emptyMessage) {
+            const container = document.getElementById(containerId);
+
+            if (!Array.isArray(data) || data.length === 0) {
+                container.innerHTML = `<p>${emptyMessage}</p>`;
+                return;
+            }
+
+            container.innerHTML = data
+                .map(item => `<div class="item">${JSON.stringify(item)}</div>`)
+                .join('');
+        }
         // ---------- RENDER HELPERS ----------
 
         function renderGuests(data) {
