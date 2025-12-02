@@ -1,21 +1,30 @@
 import { neon } from '@neondatabase/serverless';
 
-export default async (req, context) => {
+const sql = neon(process.env.DATABASE_URL);
+
+export async function handler() {
   try {
-    // Connect to database using environment variable
-    const sql = neon(process.env.DATABASE_URL);
+    const rows = await sql`
+      SELECT *
+      FROM bookings
+      ORDER BY bookingid;
+    `;
 
-    // Replace with YOUR table name
-    const result = await sql`SELECT * FROM Bookings;`;
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET"
+      },
+      body: JSON.stringify(rows)
+    };
 
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    console.error("get-bookings error:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
   }
-};
+}
